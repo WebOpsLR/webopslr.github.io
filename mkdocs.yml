@@ -1,0 +1,106 @@
+site_name: UOP Computing Challenge
+site_description: Instructions and guidance for the University of Plymouth Computing Challenge
+repo_name: "WebOpsLR"
+repo_url: https://github.com/WebOpsLR/WebOpsLR
+edit_uri: edit/main/docs
+    
+# Page navigation
+# nav:
+#   - Home: index.md
+#   - Overview: overview/index.md
+#   - Troubleshooting: troubleshooting/index.md
+#   - Pipeline: pipeline/index.md
+#   - Components: components/index.md
+#   - Maintenance: maintenance/index.md
+#   - Service Teams: service_teams/index.md
+
+theme:
+  name: material
+  custom_dir: overrides
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: light green
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: light green
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+  font:
+    text: "IBM Plex Sans"
+    code: "Ubuntu Mono"
+  features:
+    - content.action.edit
+    - content.action.view
+    - content.code.copy
+    - navigation.instant
+    - navigation.tabs
+    - search.suggest
+    # - search.highlight # not as useful as you'd think
+  # - navigation.indexes
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - toc:
+      permalink: "#"
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - markdown_include.include:
+      base_path: docs
+      inheritHeadingDepth: True
+  - pymdownx.highlight:
+      linenums: false
+  - pymdownx.inlinehilite
+  - pymdownx.smartsymbols
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.tasklist
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      # make exceptions to regular code highlighting:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets:
+      base_path: docs
+
+extra_css:
+  - stylesheets/extra.css
+#  - https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.0.9/mermaid.neutral.min.css
+
+extra_javascript:
+  # - https://unpkg.com/mermaid/dist/mermaid.min.js
+  # - extra/refresh_on_toggle_dark_light.js
+  - extra/reactive_service_diagrams.js
+
+plugins:
+  - search # required iff plugins: uncommented
+  - awesome-pages
+  - git-authors:
+      show_contribution: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+  - glightbox
+  - tags:
+      tags_file: support/tags.md

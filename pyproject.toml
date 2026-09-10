@@ -1,0 +1,23 @@
+[project]
+name = "Computing-Challenge"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "mkdocs-git-authors-plugin>=0.9.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.2.6",
+    "mkdocs-glightbox>=0.4.0",
+    "mkdocs-material>=9.5.30",
+    "mkdocs-awesome-pages-plugin>=2.6.0",
+    "markdown-include>=0.7.0",
+]
+
+[dependency-groups]
+dev = [
+    "mdformat>=0.7.0",
+    "mdformat-gfm>=0.3.0",
+    "mdformat-frontmatter>=2.0.0",
+    "mdformat-tables>=1.0.0",
+]
+
+[tool.uv]
+index-url = "https://nexus.devops.stp.hmlr.zone/repository/pypi/simple"
