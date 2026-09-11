@@ -1,0 +1,260 @@
+/* =========================================================================
+   HM Land Registry (HMLR) themed styles for Material for MkDocs
+   Brand colour: #789904 (official HMLR brand green, from hmlr-frontend)
+   Built on GOV.UK Frontend conventions (links, focus states).
+   ========================================================================= */
+
+:root {
+  /* --- HMLR brand palette --- */
+  --hmlr-green:        #789904; /* official HMLR brand colour */
+  --hmlr-green-dark:   #5d7503; /* ~20% darker, for hover/depth */
+  --hmlr-green-darker: #47590a; /* headings / footer */
+  --hmlr-green-light:  #a5c22e; /* light accent */
+  --hmlr-green-tint:   #eef3d9; /* pale background wash */
+
+  /* GOV.UK standard states (HMLR inherits these) */
+  --hmlr-link:         #1d70b8;
+  --hmlr-link-hover:   #003078;
+  --hmlr-focus:        #ffdd00; /* GOV.UK focus yellow */
+  --hmlr-black:        #0b0c0c; /* GOV.UK near-black text */
+}
+
+/* -------------------------------------------------------------------------
+   Custom Material palette hooks (primary/accent = "custom" in mkdocs.yml)
+   ------------------------------------------------------------------------- */
+
+/* Primary: used for the header + nav tabs */
+[data-md-color-primary="custom"] {
+  --md-primary-fg-color:        var(--hmlr-green);
+  --md-primary-fg-color--light: var(--hmlr-green-light);
+  --md-primary-fg-color--dark:  var(--hmlr-green-dark);
+  --md-primary-bg-color:        #ffffff;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+}
+
+/* Accent: used for links, hovers, interactive highlights */
+[data-md-color-accent="custom"] {
+  --md-accent-fg-color:         var(--hmlr-green-dark);
+  --md-accent-fg-color--transparent: rgba(120, 153, 4, 0.1);
+  --md-accent-bg-color:         #ffffff;
+}
+
+/* Light scheme link colour = accessible GOV.UK blue, hovering to HMLR green */
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: var(--hmlr-link);
+}
+[data-md-color-scheme="default"] .md-typeset a:hover {
+  color: var(--hmlr-green-dark);
+}
+
+/* Dark scheme: brighten brand tones so they stay legible on slate */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: var(--hmlr-green-light);
+  --md-accent-fg-color:  var(--hmlr-green-light);
+  --md-typeset-a-color:  #b9d94a;
+}
+
+/* -------------------------------------------------------------------------
+   Header & navigation — a crisp HMLR-green bar with a subtle gradient
+   ------------------------------------------------------------------------- */
+
+.md-header {
+  background: linear-gradient(90deg, var(--hmlr-green-darker) 0%, var(--hmlr-green) 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.md-tabs {
+  background: var(--hmlr-green-dark);
+}
+
+/* Underline the active/hovered nav tab with the light accent */
+.md-tabs__link {
+  opacity: 0.9;
+  transition: opacity 120ms ease;
+}
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  opacity: 1;
+  border-bottom: 3px solid var(--hmlr-green-light);
+}
+
+/* -------------------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------------------- */
+
+.md-typeset h1 {
+  color: var(--hmlr-green-darker);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h1 {
+  color: var(--hmlr-green-light);
+}
+
+/* Green rule under h2 to segment long pages */
+.md-typeset h2 {
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--hmlr-green-tint);
+}
+[data-md-color-scheme="slate"] .md-typeset h2 {
+  border-bottom-color: rgba(165, 194, 46, 0.25);
+}
+
+/* -------------------------------------------------------------------------
+   Links & focus (GOV.UK-style visible focus state for accessibility)
+   ------------------------------------------------------------------------- */
+
+.md-typeset a:focus-visible,
+.md-header a:focus-visible,
+.md-nav__link:focus-visible {
+  outline: 3px solid var(--hmlr-focus);
+  outline-offset: 0;
+  box-shadow: 0 -2px var(--hmlr-focus), 0 4px var(--hmlr-black);
+  text-decoration: none;
+}
+
+/* -------------------------------------------------------------------------
+   Buttons (the landing-page .md-button links) — modern, branded, animated
+   ------------------------------------------------------------------------- */
+
+.md-typeset .md-button {
+  border-radius: 6px;
+  border-width: 2px;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+.md-typeset .md-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(71, 89, 10, 0.25);
+}
+
+/* Primary button = solid HMLR green */
+.md-typeset .md-button--primary {
+  background-color: var(--hmlr-green);
+  border-color: var(--hmlr-green);
+  color: #ffffff;
+}
+.md-typeset .md-button--primary:hover {
+  background-color: var(--hmlr-green-dark);
+  border-color: var(--hmlr-green-dark);
+}
+
+/* Default (outline) button = green outline that fills on hover */
+.md-typeset .md-button {
+  color: var(--hmlr-green-dark);
+  border-color: var(--hmlr-green-dark);
+}
+.md-typeset .md-button:hover {
+  background-color: var(--hmlr-green);
+  border-color: var(--hmlr-green);
+  color: #ffffff;
+}
+
+/* -------------------------------------------------------------------------
+   Admonitions — tint the common ones with the brand where sensible
+   ------------------------------------------------------------------------- */
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 6px;
+  border-left-width: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* tip / hint boxes adopt HMLR green */
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-color: var(--hmlr-green);
+}
+.md-typeset .tip > .admonition-title,
+.md-typeset .tip > summary {
+  background-color: var(--hmlr-green-tint);
+  color: var(--hmlr-green-darker);
+  font-weight: 700;
+}
+.md-typeset .tip > .admonition-title::before,
+.md-typeset .tip > summary::before {
+  background-color: var(--hmlr-green-darker);
+}
+/* Dark mode: pale tint would be too bright, use a translucent brand wash
+   with a light-green title so the header stays legible on slate. */
+[data-md-color-scheme="slate"] .md-typeset .tip > .admonition-title,
+[data-md-color-scheme="slate"] .md-typeset .tip > summary {
+  background-color: rgba(120, 153, 4, 0.20);
+  color: var(--hmlr-green-light);
+}
+[data-md-color-scheme="slate"] .md-typeset .tip > .admonition-title::before,
+[data-md-color-scheme="slate"] .md-typeset .tip > summary::before {
+  background-color: var(--hmlr-green-light);
+}
+
+/* -------------------------------------------------------------------------
+   Tables — cleaner header, zebra striping, brand header row
+   ------------------------------------------------------------------------- */
+
+.md-typeset table:not([class]) {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--hmlr-green);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.md-typeset table:not([class]) tr:nth-child(even) {
+  background-color: var(--hmlr-green-tint);
+}
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tr:nth-child(even) {
+  background-color: rgba(120, 153, 4, 0.08);
+}
+
+/* -------------------------------------------------------------------------
+   Inline code & code blocks — subtle brand accent
+   ------------------------------------------------------------------------- */
+
+.md-typeset code {
+  border-radius: 4px;
+}
+
+.md-typeset .highlight > pre > code,
+.md-typeset pre > code {
+  border-radius: 6px;
+}
+
+.md-typeset :not(pre) > code {
+  background-color: var(--hmlr-green-tint);
+  color: var(--hmlr-green-darker);
+}
+[data-md-color-scheme="slate"] .md-typeset :not(pre) > code {
+  background-color: rgba(120, 153, 4, 0.15);
+  color: #d3ea7f;
+}
+
+/* -------------------------------------------------------------------------
+   Images — soften large screenshots with rounded corners + light border
+   ------------------------------------------------------------------------- */
+
+.md-typeset img {
+  border-radius: 6px;
+}
+
+/* -------------------------------------------------------------------------
+   Footer — brand green to bookend the header
+   ------------------------------------------------------------------------- */
+
+.md-footer {
+  background-color: var(--hmlr-green-darker);
+}
+.md-footer-meta {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Author line injected by overrides/main.html */
+.md-source-date {
+  color: var(--hmlr-green-dark);
+}
