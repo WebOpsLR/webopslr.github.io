@@ -6,6 +6,8 @@ Welcome to the WebOps Computing Challenge
 
 ## Before you Start
 
+There are some bits you need to complete before starting the challenge in order to complete the tasks within time.
+
 ### Software Requirements
 
 To complete this challenge you will need:
