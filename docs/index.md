@@ -109,6 +109,7 @@ The script uses Homebrew and installs Docker Desktop, kubectl, Minikube, Helm, a
 Here are some links to resources that will be useful for this challenge and for gaining a wider understanding of DevOps.
 
 These links are for resources relevant to the challenge:
+
 - [Minikube documentation](https://minikube.sigs.k8s.io/docs/)
 - [Docker documentation](https://docs.docker.com/)
 - [Helm documentation](https://helm.sh/docs/)
@@ -116,6 +117,7 @@ These links are for resources relevant to the challenge:
 - [WSL documentation](https://wsl.dev/)
 
 These links are resources for a wider understanding of DevOps:
+
 - [Kubernetes Documentation](https://kubernetes.io/docs/home/)
 - [Overview of CI/CD](https://www.redhat.com/en/topics/devops/what-is-ci-cd)
 - [DevOps Principles](https://www.atlassian.com/devops/what-is-devops)
