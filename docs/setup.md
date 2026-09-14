@@ -25,6 +25,17 @@ On Windows, everything runs inside **WSL** (which gives you Linux inside
 Windows). If you've never used WSL before, start at Step 1. If you already have
 Ubuntu set up, you can skip to Step 2.
 
+!!! note "Two terminals — don't mix them up"
+    You'll use **two** different terminal windows in these steps:
+
+    - **PowerShell** (built into Windows) — used **once** in Step 1 to install
+      WSL.
+    - **Ubuntu** (your WSL/Linux terminal) — used for **everything else**,
+      including running the challenge.
+
+    Both open from the **Start** menu: click Start and type the name
+    (`PowerShell` or `Ubuntu`), then click the matching app.
+
 ### Step 1 — Install WSL
 
 1. Open **Start**, type `PowerShell`, then **right-click** *Windows PowerShell*
@@ -58,9 +69,12 @@ Ubuntu set up, you can skip to Step 2.
 
 ### Step 3 — Get the challenge files and run the setup script
 
-1. Open the **Ubuntu** app from the Start menu (this is your WSL terminal). New
-   to the terminal? Read [WSL Basic Commands](hints.md#wsl-basic-commands)
-   first — it covers moving between folders and running commands.
+1. Open your WSL terminal: click **Start**, type `Ubuntu`, and open the
+   **Ubuntu** app. A black window opens with a prompt ending in `$`, waiting for
+   you to type. (You can also use the **Windows Terminal** app if you have it —
+   just make sure the tab says *Ubuntu*, not *PowerShell*.) New to the terminal?
+   Read [WSL Basic Commands](hints.md#wsl-basic-commands) first — it covers
+   moving between folders and running commands.
 2. Get a copy of the challenge repository (see
    [Getting the challenge files](#getting-the-challenge-files) below).
 3. Move into the folder you just downloaded and run the setup script:
