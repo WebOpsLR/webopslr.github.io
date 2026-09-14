@@ -1,6 +1,7 @@
 nav:
   - Welcome: index.md
-  - Software Overview: overview.md
+  - Setup: setup.md
   - Guide: guide.md
   - Hints: hints.md
+  - Software Overview: overview.md
 

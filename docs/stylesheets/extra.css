@@ -130,17 +130,6 @@
   box-shadow: 0 4px 12px rgba(71, 89, 10, 0.25);
 }
 
-/* Primary button = solid HMLR green */
-.md-typeset .md-button--primary {
-  background-color: var(--hmlr-green);
-  border-color: var(--hmlr-green);
-  color: #ffffff;
-}
-.md-typeset .md-button--primary:hover {
-  background-color: var(--hmlr-green-dark);
-  border-color: var(--hmlr-green-dark);
-}
-
 /* Default (outline) button = green outline that fills on hover */
 .md-typeset .md-button {
   color: var(--hmlr-green-dark);
@@ -149,6 +138,19 @@
 .md-typeset .md-button:hover {
   background-color: var(--hmlr-green);
   border-color: var(--hmlr-green);
+  color: #ffffff;
+}
+
+/* Primary button = solid HMLR green (declared last so it wins over the
+   default .md-button rules above, since both have equal specificity) */
+.md-typeset .md-button--primary {
+  background-color: var(--hmlr-green);
+  border-color: var(--hmlr-green);
+  color: #ffffff;
+}
+.md-typeset .md-button--primary:hover {
+  background-color: var(--hmlr-green-dark);
+  border-color: var(--hmlr-green-dark);
   color: #ffffff;
 }
 
