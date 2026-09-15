@@ -157,6 +157,10 @@ You need a local copy of the
 repository. It contains the setup script and template files used in the
 challenge.
 
+Windows users must ensure they extract the zip file to a location within WSL.
+
+Ubuntu (Or your chosen distribution) should show as an option in file explorer under **This PC**, save the files at `home/<user>/<filepath>`
+
 The easiest option for most people:
 
 1. Open <https://github.com/WebOpsLR/UOPComputingChallenge> in your browser.
@@ -174,9 +178,6 @@ Or, if you have SSH set up with GitHub:
 ```shell
 git clone git@github.com:WebOpsLR/UOPComputingChallenge.git
 ```
-
-!!! warning
-    Windows users must ensure they extract the zip file to a location within WSL (Linux/Ubuntu should show as an option in file explorer under this PC, save the files at `home/<user>/<filepath>`)
 
 ---
 
