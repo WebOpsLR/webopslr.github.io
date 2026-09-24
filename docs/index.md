@@ -39,6 +39,7 @@ These links are for resources relevant to the challenge:
 - [Helm documentation](https://helm.sh/docs/)
 - [Terraform documentation](https://developer.hashicorp.com/terraform/docs)
 - [WSL documentation](https://wsl.dev/)
+- [Git handbook](https://www.freecodecamp.org/news/the-essential-git-handbook-a1cf77ed11b5/)
 
 These links are resources for a wider understanding of DevOps:
 
