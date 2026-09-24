@@ -48,14 +48,10 @@ Ubuntu set up, you can skip to Step 2.
    This installs WSL along with **Ubuntu** (the recommended Linux distribution).
    If WSL is already installed, this command will simply tell you so — no harm
    done.
-3. **Restart your computer** when it asks you to.
-4. After restarting, Ubuntu will open and ask you to create a **username** and
+3. **Restart your computer** if it asks you to.
+4. After restarting open Ubuntu, and it will ask you to create a **username** and
    **password**. Pick something you'll remember — you'll need this password
    later whenever you run commands with `sudo`.
-
-!!! tip
-    If Ubuntu doesn't open on its own after restarting, open the **Start** menu,
-    type `Ubuntu`, and click the Ubuntu app to finish the setup.
 
 ### Step 2 — Install Docker Desktop
 
@@ -77,15 +73,38 @@ Ubuntu set up, you can skip to Step 2.
    moving between folders and running commands.
 2. Get a copy of the challenge repository (see
    [Getting the challenge files](#getting-the-challenge-files) below).
-3. Move into the folder you just downloaded and run the setup script:
+3. Move into the folder you just downloaded and run the setup script.
+
+    !!! warning "Make sure the files are inside WSL first"
+        The setup only works if the files live **inside** WSL, not on the
+        Windows side. If you downloaded the ZIP without changing the download location it went to
+        your Windows *Downloads* folder by default, which is the wrong place —
+        `chmod +x` won't stick and the challenge will run slowly. See
+        [Getting the challenge files](#getting-the-challenge-files) for how to
+        put them in the right place (your home folder inside Ubuntu).
+
+    First move into the folder. If you unzipped the download, GitHub names the
+    folder `UOPComputingChallenge-main` (with `-main` on the end); if you used
+    `git clone` it's just `UOPComputingChallenge`. Use whichever matches:
    ```shell
-   cd UOPComputingChallenge
+   cd ~/UOPComputingChallenge-main   # if you downloaded the ZIP
+   # or
+   cd ~/UOPComputingChallenge        # if you cloned with git
+   ```
+
+    !!! tip "Not sure what's in your home folder?"
+        Type `ls ~` and press ++enter++ to list the folders in your home
+        directory, then `cd ~/` followed by the name you see. New to the
+        terminal? [WSL Basic Commands](hints.md#wsl-basic-commands) covers
+        moving between folders.
+
+    Then run the setup script:
+   ```shell
    chmod +x install-tools.sh
    sudo ./install-tools.sh
    ```
-   `chmod +x` makes the script runnable (needed because downloading it as a ZIP
-   removes that permission). `sudo` runs the command with admin rights and will
-   ask for the password you created in Step 1.
+   `chmod +x` makes the script runnable (needed if you download the files as a **.zip**). 
+   `sudo` runs the command with admin rights and will ask for the password you created in Step 1.
 
 !!! tip
     You may need to close and reopen the terminal afterwards for everything to
@@ -106,9 +125,15 @@ Steps:
 1. Open a terminal.
 2. Get a copy of the challenge repository (see
    [Getting the challenge files](#getting-the-challenge-files) below).
-3. Move into the folder and run the setup script:
+3. Move into the folder and run the setup script. If you unzipped the
+   download, the folder is named `UOPComputingChallenge-main`; if you used
+   `git clone` it's `UOPComputingChallenge`. Use whichever matches (run `ls`
+   to check):
    ```shell
-   cd UOPComputingChallenge
+   cd UOPComputingChallenge-main   # if you downloaded the ZIP
+   # or
+   cd UOPComputingChallenge        # if you cloned with git
+
    chmod +x install-tools.sh
    sudo ./install-tools.sh
    ```
@@ -127,22 +152,27 @@ Steps:
 You'll need:
 
 - **Homebrew** (the setup script installs it for you if it's missing).
-- **Docker Desktop**, opened at least once so its engine is running.
+- **Docker Desktop**, opened at least once so its engine is running. download from <https://docs.docker.com/desktop/setup/install/mac-install/>
 
 Steps:
 
 1. Open the **Terminal** app.
 2. Get a copy of the challenge repository (see
    [Getting the challenge files](#getting-the-challenge-files) below).
-3. Move into the folder and run the setup script **without** `sudo`:
+3. Move into the folder and run the setup script **without** `sudo`. If you
+   unzipped the download, the folder is named `UOPComputingChallenge-main`; if
+   you used `git clone` it's `UOPComputingChallenge`. Use whichever matches
+   (run `ls` to check):
    ```shell
-   cd UOPComputingChallenge
+   cd UOPComputingChallenge-main   # if you downloaded the ZIP
+   # or
+   cd UOPComputingChallenge        # if you cloned with git
+
    chmod +x install-tools.sh
    ./install-tools.sh
    ```
    `chmod +x` makes the script runnable (needed because downloading it as a ZIP
    removes that permission).
-4. After it finishes, open **Docker Desktop** once so its engine starts.
 
 !!! warning "Don't use sudo on macOS"
     On a Mac, run the script **without** `sudo`. Homebrew refuses to run as an
@@ -157,27 +187,110 @@ You need a local copy of the
 repository. It contains the setup script and template files used in the
 challenge.
 
-Windows users must ensure they extract the zip file to a location within WSL.
+There are two ways to get the files: **download the ZIP** (easiest if you're
+not familiar with git) or **clone with git**. The exact steps differ per
+operating system — follow the tab for **your** system.
 
-Ubuntu (Or your chosen distribution) should show as an option in file explorer under **This PC**, save the files at `home/<user>/<filepath>`
+=== "Windows"
 
-The easiest option for most people:
+    On Windows the files **must** end up inside your Ubuntu (WSL) home folder,
+    not on the Windows side. Files kept under Windows (paths that start with
+    `/mnt/c/...`, such as your normal *Downloads* folder) lose the "runnable"
+    permission and make the challenge run slowly.
 
-1. Open <https://github.com/WebOpsLR/UOPComputingChallenge> in your browser.
-2. Click the green **Code** button, then **Download ZIP**.
-3. Unzip it into a folder you can find easily (for example your home folder).
+    **Option A — Download the ZIP (easiest)**
 
-If you're comfortable with **git**, you can clone it instead:
+    Downloading the ZIP in your browser always saves it to the Windows side, so
+    you'll need to move it into WSL afterwards.
 
-```shell
-git clone https://github.com/WebOpsLR/UOPComputingChallenge.git
-```
+    1. Open <https://github.com/WebOpsLR/UOPComputingChallenge> in your browser.
+    2. Click the green **Code** button, then **Download ZIP**. It saves to your
+       Windows *Downloads* folder.
+    3. Open your *Downloads* folder in **File Explorer**, right-click the ZIP
+       (`UOPComputingChallenge-main.zip`) and choose **Extract All...**. This
+       creates a folder named `UOPComputingChallenge-main`, still on the
+       Windows side.
+    4. Move that folder into your Ubuntu home folder. Open your **Ubuntu**
+       terminal and run (replace `<your-windows-username>` with your actual
+       Windows account name):
+       ```shell
+       cp -r "/mnt/c/Users/<your-windows-username>/Downloads/UOPComputingChallenge-main" ~/
+       ```
+       Not sure of your Windows username? Run `ls /mnt/c/Users` to see the
+       folder names.
 
-Or, if you have SSH set up with GitHub:
+    **Option B — Clone with git**
 
-```shell
-git clone git@github.com:WebOpsLR/UOPComputingChallenge.git
-```
+    If you're comfortable with **git**, clone straight into your WSL home folder
+    from the **Ubuntu** terminal — this avoids the move entirely:
+    ```shell
+    cd ~
+    git clone https://github.com/WebOpsLR/UOPComputingChallenge.git
+    # or, if you have SSH set up with GitHub:
+    git clone git@github.com:WebOpsLR/UOPComputingChallenge.git
+    ```
+
+    !!! success "How to know you're in the right place"
+        Run `ls ~` — you should see the challenge folder in the list
+        (`UOPComputingChallenge-main` if you downloaded the ZIP, or
+        `UOPComputingChallenge` if you cloned with git). If it's there, `cd`
+        into it and you're set. If `ls ~` **doesn't** show it (or `cd` reports
+        `No such file or directory`), it's still on the Windows side and hasn't
+        been moved into WSL — go back and move it.
+
+=== "Linux"
+
+    **Option A — Download the ZIP**
+
+    1. Open <https://github.com/WebOpsLR/UOPComputingChallenge> in your browser.
+    2. Click the green **Code** button, then **Download ZIP**.
+    3. Extract it somewhere easy to find, such as your home folder. Your file
+       manager can do this, or from a terminal:
+       ```shell
+       cd ~/Downloads
+       unzip UOPComputingChallenge-main.zip -d ~/
+       ```
+       This creates `~/UOPComputingChallenge-main`.
+
+    **Option B — Clone with git**
+
+    ```shell
+    cd ~
+    git clone https://github.com/WebOpsLR/UOPComputingChallenge.git
+    # or, if you have SSH set up with GitHub:
+    git clone git@github.com:WebOpsLR/UOPComputingChallenge.git
+    ```
+
+    Run `ls ~` to confirm the folder is there
+    (`UOPComputingChallenge-main` from the ZIP, or `UOPComputingChallenge`
+    from git).
+
+=== "Mac"
+
+    **Option A — Download the ZIP**
+
+    1. Open <https://github.com/WebOpsLR/UOPComputingChallenge> in your browser.
+    2. Click the green **Code** button, then **Download ZIP**.
+    3. Double-click the downloaded ZIP in **Finder** to unzip it — this creates
+       a `UOPComputingChallenge-main` folder in your *Downloads*. Move it
+       somewhere easy to find, such as your home folder, or from the **Terminal**
+       app:
+       ```shell
+       mv ~/Downloads/UOPComputingChallenge-main ~/
+       ```
+
+    **Option B — Clone with git**
+
+    ```shell
+    cd ~
+    git clone https://github.com/WebOpsLR/UOPComputingChallenge.git
+    # or, if you have SSH set up with GitHub:
+    git clone git@github.com:WebOpsLR/UOPComputingChallenge.git
+    ```
+
+    Run `ls ~` to confirm the folder is there
+    (`UOPComputingChallenge-main` from the ZIP, or `UOPComputingChallenge`
+    from git).
 
 ---
 
