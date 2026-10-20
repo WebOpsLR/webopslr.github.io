@@ -65,6 +65,9 @@ kubectl get services -A           # lists all services
 
 ## Choosing an image
 
+!!! info
+    we recommend choosing a web application image for this as it will be simpler to deploy (less likely to need a large amount of memory or need alternative helm configuration)
+
 You now need to decide in your group which Docker image you'd like to deploy to your minikube cluster using **Terraform** and **Helm**. New to these tools? See the [Software Overview](overview.md).
 
 [Docker Hub](https://hub.docker.com/) is the primary public source for Docker images and any image you use today will likely be from there. However, being an industry focused service the ones it suggests on the homepage won't be very interesting to run outside of a microservice ecosystem.
@@ -74,8 +77,17 @@ Instead try the search feature to find an image that will deploy something acces
 For example, searching `tetris` takes me to results with multiple options to choose from:
 ![](images/tetris-search.png)
 
-Whatever you pick, note three things from the image's Docker Hub page, you'll
-need them in the next step:
+Here are some search phrases to spark ideas:
+
+- **Games:** `tetris`, `2048`, `snake`, `pacman`, `doom`, `minesweeper`, `chess`
+- **Fun / demos:** `hello world`, `whoami`, `nyancat`, `ascii`, `clock`
+- **Useful web tools:** `it-tools`, `code-server`, `nginx hello`, `httpbin`, `static site`
+- **Dashboards / landing pages:** `homer`, `dashy`, `heimdall`, `linkding`
+
+!!! info "What makes a good image for this challenge?"
+    Look for images that serve a web page on a single port and don't need a database or extra services to start. The image's Docker Hub page should show a simple `docker run -p ...` example. If the description talks about needing a database or multiple containers, pick something simpler.
+
+Whatever you pick, note three things from the image's Docker Hub page, you'll need them in the next step:
 
 - The **image name** (e.g. `bsord/tetris`).
 - The **tag** (e.g. `latest`).
@@ -232,4 +244,4 @@ This will require you installing the technologies we've used onto a personal dev
 As the focus of this challenge isn't specifically on the containerisation part of the deployment process, feel free to use an AI assistant to generate your Dockerfile and save you some time.
 
 !!! tip
-    If using a personal web application project then it's advised to push it to a private repository on Docker Hub 
+    If using a personal web application project then it's advised to push it to a private repository on Docker Hub.
