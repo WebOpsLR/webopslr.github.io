@@ -47,12 +47,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install \
-            "mkdocs-git-authors-plugin>=0.9.0" \
-            "mkdocs-git-revision-date-localized-plugin>=1.2.6" \
-            "mkdocs-glightbox>=0.4.0" \
-            "mkdocs-material>=9.5.30" \
-            "mkdocs-awesome-pages-plugin>=2.6.0" \
-            "markdown-include>=0.7.0"
+            "mkdocs==1.6.1" \
+            "mkdocs-material==9.7.7" \
+            "mkdocs-glightbox==0.5.2" \
+            "selectolax==0.4.11" \
+            "markdown-include==0.8.1" \
+            "mkdocs-awesome-pages-plugin==2.10.1" \
+            "mkdocs-git-authors-plugin==0.10.0" \
+            "mkdocs-git-revision-date-localized-plugin==1.5.4"
 
       - name: Build site
         run: mkdocs build --site-dir public
