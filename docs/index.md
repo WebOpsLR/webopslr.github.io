@@ -6,10 +6,9 @@ This challenge walks you through a hands-on DevOps workflow using Docker, Kubern
 
 [Setup](setup.md){ .md-button .md-button--primary } [Guide](guide.md){ .md-button } [Hints](hints.md){ .md-button }
 
-## Getting Started
+## Contents
 
-1. **[Set up your machine](setup.md)** — install the required tools and clone
-   the challenge repository.
+1. **[Software Overview](overview.md)** - Brief overviews of the software you use in this challenge.
 2. **[Follow the guide](guide.md)** — work through the challenge tasks.
 3. **[Check the hints](hints.md)** — if you get stuck along the way.
 
