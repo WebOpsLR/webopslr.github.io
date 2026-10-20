@@ -4,7 +4,7 @@ Welcome to the DevOps Computing Challenge.
 
 This challenge walks you through a hands-on DevOps workflow using Docker, Kubernetes (via Minikube), Helm, and Terraform. Before you dive in, make sure your machine is set up with the required tools.
 
-[Setup](setup.md){ .md-button .md-button--primary } [Guide](guide.md){ .md-button } [Hints](hints.md){ .md-button }
+[Software Overview](overview.md){ .md-button .md-button--primary } [Guide](guide.md){ .md-button } [Hints](hints.md){ .md-button }
 
 ## Contents
 
@@ -34,8 +34,11 @@ These links are for resources relevant to the challenge:
 
 - [Minikube documentation](https://minikube.sigs.k8s.io/docs/)
 - [Docker documentation](https://docs.docker.com/)
+- [Dockerfile reference](https://docs.docker.com/reference/dockerfile/)
 - [Helm documentation](https://helm.sh/docs/)
+- [Helm chart template guide](https://helm.sh/docs/chart_template_guide/)
 - [Terraform documentation](https://developer.hashicorp.com/terraform/docs)
+- [kubectl command reference](https://kubernetes.io/docs/reference/kubectl/)
 - [WSL documentation](https://wsl.dev/)
 - [Git handbook](https://www.freecodecamp.org/news/the-essential-git-handbook-a1cf77ed11b5/)
 
@@ -49,3 +52,8 @@ These links are resources for a wider understanding of DevOps:
 - [Docker Container Repositories](https://docs.docker.com/docker-hub/repos/)
 - [Private Container Repositories](https://www.redhat.com/en/blog/simple-container-registry)
 - [OpenSSH Manual](https://www.openssh.org/manual.html)
+- [The Twelve-Factor App](https://12factor.net/)
+- [Infrastructure as Code explained](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac)
+- [GitOps explained](https://www.gitops.tech/)
+- [YAML specification](https://yaml.org/spec/)
+- [Kubernetes concepts overview](https://kubernetes.io/docs/concepts/)
