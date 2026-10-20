@@ -1,17 +1,14 @@
 # Hints
 
-Stuck on a step in the guide? Open a hint below.
+Stuck on a step in the guide? Find the matching section below.
 
 ## WSL Basic Commands
 
-New to the terminal? WSL gives you a Linux command line inside Windows: you type
-a command, press ++enter++, and it runs. These hints cover just enough to get
+Windows Subsystem for Linux gives you a Linux command line inside Windows: you type a command, press ++enter++, and it runs. These cover just enough to get
 through the challenge.
 
-### Opening your terminal
-Open the **Windows Terminal** app (or the **Ubuntu** app) from the Start menu. You'll see a prompt ending in `$` waiting for you to type. If you're using terminal make sure you're in WSL and not powershell.
-
 ### Getting around the file system
+
 Files live in directories. These move you around:
 
 | Command | What it does | Example |
@@ -25,88 +22,100 @@ Files live in directories. These move you around:
 | `clear` | Clear the screen | `clear` |
 | `history` | See previously used commands | `history` |
 
-Start typing a name and press ++tab++ to auto-complete it.
+Start typing a name and press ++tab++ to auto-complete it, and press ++up++ to bring back the previous command.
 
-### Finding your cloned repo
-Move into the repo before running commands:
+## Challenge Hints
+
+!!! info "Names in these commands"
+    Commands below use **<release_name>** and **<namespace>** — replace them with the values you set in `terraform/terraform.tfvars`. The Service is named **<release_name>-challenge**.
+
+### terraform apply can't reach the cluster
+
+Check `minikube status` shows everything **Running** and `kubectl get nodes`
+works. If minikube isn't running, start it with `minikube start`. Terraform
+uses the `minikube` context by default.
+
+### terraform apply hangs, then fails with a timeout
+
+Terraform waits up to 5 minutes for the pod to become Ready before it finishes,
+so a pod that never starts looks like a slow apply that eventually times out
+rather than failing straight away. Diagnose with:
 
 ```shell
-cd ~/UOPComputingChallenge   # adjust if you cloned it elsewhere
-ls                           # expect: install-tools.sh, helm/, terraform/
+kubectl get pods -n <namespace>
+kubectl describe pod -n <namespace> -l app.kubernetes.io/instance=<release_name>
 ```
 
-!!! info "Cloned it from Windows?" 
-    You can open the folder in VSCode and open a terminal inside the IDE to continue.
+The usual causes are a wrong `containerPort` or the image needing more memory (**OOMKilled** in events).
 
-### Running the scripts in this challenge
+### Pod stuck in ImagePullBackOff
+
+Usually a wrong image name or tag in `values.yaml`, or no connectivity to Docker
+Hub. Check what's happening:
+
 ```shell
-chmod +x install-tools.sh   # make it executable (if required)
-sudo ./install-tools.sh     # run with admin rights
+kubectl describe pod -n <namespace> -l app.kubernetes.io/instance=<release_name>
 ```
 
-`sudo` runs as administrator — needed to install software. This will ask for the password you created for your WSL user.
+### nodePort error: port is already allocated
 
-## Deploying a different app
+Each `nodePort` can only be used once on the cluster. Pick a different number in the 30000-32767 range in `values.yaml` and re-run `terraform apply`.
 
-This methodology will work with any docker image with some tweaks to the helm values. Everything lives in `helm/tetris/values.yaml` — edit that file, then re-run `terraform apply`.
+### The pod never becomes Ready (health checks)
 
-??? tip "Changing the image"
-    If your new image runs on port `80` like our tetris example, this is the only change needed:
+The chart's probes request `GET /` on the container port. If your app serves its health check somewhere else, point the probes at it in `helm/challenge/templates/deployment.yaml`:
 
-    ```yaml
-    # helm/tetris/values.yaml
-    image:
-      repository: nginxdemos/hello
-      tag: latest
-    ```
+```yaml
+# helm/challenge/templates/deployment.yaml
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+```
 
-??? tip "Changing the external port"
-    Must be in the 30000–32767 range:
+Not an HTTP app? Use a `tcpSocket` probe or remove the probes. as the pod will start without them
 
-    ```yaml
-    # helm/tetris/values.yaml
-    service:
-      nodePort: 30090
-    ```
+### minikube service doesn't open a browser
 
-??? tip "Changing container port"
-    Set both to the port your app serves on:
+On WSL this is common — use the port-forward command instead:
 
-    ```yaml
-    # helm/tetris/values.yaml
-    containerPort: 8080
-    service:
-      port: 8080
-    ```
+```shell
+kubectl port-forward -n <namespace> svc/<release_name>-challenge 8080:<service.port>
+```
 
-??? tip "The pod never becomes Ready (health checks)"
-    The probes `GET /` on the app. If yours serves health elsewhere:
+Then visit <http://localhost:8080>.
 
-    ```yaml
-    # helm/tetris/templates/deployment.yaml
-    readinessProbe:
-      httpGet:
-        path: /health
-        port: http
-    ```
+### Fixing a value and trying again
 
-    Not an HTTP app? Use a `tcpSocket` probe or remove the probes. Slow to
-    start? Raise `initialDelaySeconds`.
+You don't need to tear anything down first. Edit `helm/challenge/values.yaml` or
+`terraform/terraform.tfvars` and re-run `terraform apply` — Helm upgrades the
+existing release in place.
 
+## Extension hints
 
-## Troubleshooting
+### Deploying Elasticsearch
 
-??? tip "`terraform apply` can't reach the cluster"
-    Check `minikube status` shows it running and `kubectl get nodes` works.
-    Terraform uses the `minikube` context by default; override with
-    `-var="kube_context=<name>"` if yours differs.
+Elasticsearch is heavier than a simple web image, so the chart's defaults won't be enough. Start by looking at what the pod is actually doing:
 
-??? tip "Pod stuck in `ImagePullBackOff`"
-    Check connectivity to Docker Hub:
+```shell
+kubectl get pods -n <namespace>
+kubectl describe pod -n <namespace> -l app.kubernetes.io/instance=<release_name>
+kubectl logs -n <namespace> -l app.kubernetes.io/instance=<release_name>
+```
 
-    ```shell
-    kubectl describe pod -n tetris -l app.kubernetes.io/name=tetris
-    ```
+#### The pod gets OOMKilled or keeps restarting
 
-??? tip "`minikube service` doesn't open a browser"
-    On WSL this is common — use the port-forward command instead.
+Elasticsearch needs far more memory than the chart's defaults. In the **describe** events you'll see **OOMKilled** or the pod restarting. Raise the limits in `values.yaml`:
+
+```yaml
+# helm/challenge/values.yaml
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: "1"
+    memory: 2Gi
+```
+
+You may also need to tell Elasticsearch to run as a single node by setting the `discovery.type=single-node` environment variable.
