@@ -50,7 +50,7 @@ Here's a quick guide to the main tools our team uses to build and run software.
 
 
 ## Minikube
-![minikube](images/Picture5.png)
+<img src="../images/Picture5.png" alt="minikube" width="200"/>
 
 **What is it?** Minikube is a tool that lets you run Kubernetes on your own computer. Instead of needing lots of servers in a data centre, Minikube creates a small local Kubernetes cluster so you can learn, test, and develop applications safely on your devuce.
 
@@ -61,7 +61,6 @@ It has the same desks, whiteboards, and teaching methods, just on a much smaller
 
 
 ## GitHub
-
-![github](images/GitHub.png)
+<img src="../images/github.png" alt="github" width="200"/>
 
 **What is it?** GitHub is where we store our code and work together on it. Think of it like Google Docs but for code. Multiple people can work on the same project without overwriting each other's work.
