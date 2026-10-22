@@ -11,7 +11,7 @@ In this challenge you will host your own minikube cluster and deploy a web appli
 
 To complete the challenge you will need to open **Terminal**, this has been defaulted to launch into the **WSL terminal** when opened for the purpose of this challenge.
 
-![](images/terminal.png)
+![terminal](images/terminal.png)
 
 !!! info "Want to know what WSL is or need help?"
     [What is WSL?](https://learn.microsoft.com/en-us/windows/wsl/about)
@@ -75,7 +75,7 @@ You now need to decide in your group which Docker image you'd like to deploy to 
 Instead try the search feature to find an image that will deploy something accessible on it's own
 
 For example, searching `tetris` takes me to results with multiple options to choose from:
-![](images/tetris-search.png)
+![docker-search](images/tetris-search.png)
 
 Here are some search phrases to spark ideas:
 
