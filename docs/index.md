@@ -2,7 +2,7 @@
 
 Welcome to the WebOps Computing Challenge.
 
-This challenge walks you through a hands-on DevOps workflow using Docker, Kubernetes (via Minikube), Helm, and Terraform. Before you dive in, make sure your machine is set up with the required tools.
+This challenge walks you through a hands-on WebOps workflow using Docker, Kubernetes (via Minikube), Helm, and Terraform. Before you dive in, make sure your machine is set up with the required tools.
 
 [Software Overview](overview.md){ .md-button .md-button--primary } [Guide](guide.md){ .md-button } [Hints](hints.md){ .md-button }
 
@@ -14,22 +14,21 @@ This challenge walks you through a hands-on DevOps workflow using Docker, Kubern
 
 ## Industry Relevance
 
-At HM Land Registry (HMLR) we deploy almost our entire application estate on [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform) (Enterprise Kubernetes). This challenge is a simplified overview of how we build, promote, and run our applications — from local development, through lower (test and staging) environments, and into production.
+At HM Land Registry (HMLR), we use technologies such as [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform) and other cloud-native tooling to build, deploy, and operate applications throughout the software development lifecycle (SDLC). This challenge provides a simplified introduction to the processes and technologies involved in taking an application from development through to deployment and operation.
 
-The tools you use here map directly into our application development lifecycle:
+The tools you use here reflect common practices used across modern WebOps teams:
 
-- **Docker** containerises our applications, ensuring consistent behaviour across environments ([benefits of containerisation](https://www.ibm.com/think/insights/the-benefits-of-containerization-and-what-it-means-for-you)).
-- **Kubernetes** orchestrates those containers, handling scaling, self-healing, and rollouts across our estate. You will use Minikube as a local stand-in for the production clusters we operate.
-- **Helm** packages and templates our Kubernetes deployments, meaning we can easily set environment specific values files meaning the application will be deployed consistently across environments.
-- **Terraform** lets us manage infrastructure as code, so environments are replicable and version-controlled. This also allows us to deploy to multiple environments with a single code block and enables recovery in a distaster situation.
+- **Docker** containerises applications, ensuring they behave consistently across different environments.
+- **Kubernetes** orchestrates those containers, handling tasks such as scaling, self-healing, and application deployment. In this challenge, you will use Minikube as a local Kubernetes environment.
+- **Helm** packages and templates Kubernetes resources, allowing applications to be deployed consistently while supporting environment-specific configuration.
+- **Terraform** enables infrastructure to be defined and managed as code, making environments reproducible, version-controlled, and easier to maintain.
 
-Terraform is one of the most fundamental tools we utilise, in this challenge you're just using it to deploy your application to a Minikube cluster. But we use it to deploy our whole cloud infrastructure to AWS. A small sample of the things we deploy using Terraform include our cloud OpenShift deployment, PostgreSQL databases, Redis elasticaches and VPCs which are used by our various services.
+While this challenge uses a local Kubernetes cluster and a simplified deployment workflow, the concepts are the same ones used across the industry to manage applications and infrastructure at scale. Infrastructure as Code, containerisation, orchestration, and automated deployments form the foundation of modern cloud platforms and WebOps practices.
 
-By the end of this challenge you will have followed the same core path an application takes on its way to production at HMLR, using the same industry-standard tooling we rely on every day.
-
+By the end of this challenge, you will have followed the core stages involved in deploying and running an application using industry-standard tools, gaining practical experience with technologies commonly used throughout the software development lifecycle.
 ## Useful Resources
 
-Here are some links to resources that will be useful for this challenge and for gaining a wider understanding of DevOps.
+Here are some links to resources that will be useful for this challenge and for gaining a wider understanding of WebOps.
 
 These links are for resources relevant to the challenge:
 
