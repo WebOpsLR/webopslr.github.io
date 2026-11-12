@@ -75,16 +75,6 @@ readinessProbe:
 
 Not an HTTP app? Use a `tcpSocket` probe or remove the probes. as the pod will start without them
 
-### minikube service doesn't open a browser
-
-On WSL this is common — use the port-forward command instead:
-
-```shell
-kubectl port-forward -n <namespace> svc/<release_name>-challenge 8080:<service.port>
-```
-
-Then visit <http://localhost:8080>.
-
 ### Fixing a value and trying again
 
 You don't need to tear anything down first. Edit `helm/challenge/values.yaml` or
@@ -93,29 +83,19 @@ existing release in place.
 
 ## Extension hints
 
-### Deploying Elasticsearch
+### Which files do I edit?
 
-Elasticsearch is heavier than a simple web image, so the chart's defaults won't be enough. Start by looking at what the pod is actually doing:
+- To make changes to your application's **image, ports, or memory limits** you will need to edit `helm/challenge/values.yaml` 
+- To make changes to the **liveness and readiness probes** you will need to edit `helm/challenge/templates/deployment.yaml`
 
-```shell
-kubectl get pods -n <namespace>
-kubectl describe pod -n <namespace> -l app.kubernetes.io/instance=<release_name>
-kubectl logs -n <namespace> -l app.kubernetes.io/instance=<release_name>
-```
+After editing either file, re-run `terraform apply`, Helm upgrades the release in place, then re-check with `kubectl get pods -n <namespace>`. No need to tear anything down.
 
-#### The pod gets OOMKilled or keeps restarting
+#### The pod keeps restarting / CrashLoopBackOff with failing probes
 
-Elasticsearch needs far more memory than the chart's defaults. In the **describe** events you'll see **OOMKilled** or the pod restarting. Raise the limits in `values.yaml`:
+If the events mention **Liveness probe failed** or **Readiness probe failed**, Kubernetes thinks the container is unhealthy and is restarting it. The probes check the **container port**, so if that port is wrong they'll fail every time.
 
-```yaml
-# helm/challenge/values.yaml
-resources:
-  requests:
-    cpu: 500m
-    memory: 1Gi
-  limits:
-    cpu: "1"
-    memory: 2Gi
-```
+Which port does Jenkins actually listen on inside the container? It's **not** the one the tetris image used, the [Jenkins image docs](https://hub.docker.com/r/jenkins/jenkins) will tell you. Once you know it, make sure the port values in `values.yaml` match the port Jenkins really serves on.
 
-You may also need to tell Elasticsearch to run as a single node by setting the `discovery.type=single-node` environment variable.
+#### The pod gets OOMKilled, or the events mention memory
+
+Jenkins needs far more memory than the chart's defaults allow for a tiny web app. If the **describe** events show **OOMKilled**, or the container keeps being killed and restarted, your application is running out of memory. Look at the `resources` section in `values.yaml` and raise the memory (and if needed CPU) limits until Jenkins has enough room to start, you may need to experiment with the numbers.

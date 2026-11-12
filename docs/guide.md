@@ -20,8 +20,11 @@ To complete the challenge you will need to open **Terminal**, this has been defa
 
 Once you've opened your terminal you need to navigate to the challenge directory(folder):
 ```shell
-cd ~/UOPComputingChallenge
+cd ~/challenge
 ```
+
+!!! tip
+    if you need to use `sudo` for anything, the username and password in WSL have both been set to **student**
 
 ## What's in the challenge files
 
@@ -47,7 +50,7 @@ You'll start with launching your minikube cluster using the cli in terminal
 minikube start
 ```
 
-This creates a local single-node Kubernetes cluster and sets your kubeconfig context to `minikube`. Confirm it's up:
+This creates a local single-node Kubernetes cluster and sets your **kubeconfig** context to `minikube`. Confirm it's up:
 ```shell
 kubectl get nodes
 ```
@@ -66,20 +69,20 @@ kubectl get services -A           # lists all services
 ## Choosing an image
 
 !!! info
-    we recommend choosing a web application image for this as it will be simpler to deploy (less likely to need a large amount of memory or need alternative helm configuration)
+    we recommend choosing a web application image for this as it will be simpler to deploy (less likely to need a large amount of memory or an alternative helm configuration)
 
-You now need to decide in your group which Docker image you'd like to deploy to your minikube cluster using **Terraform** and **Helm**. New to these tools? See the [Software Overview](overview.md).
+You now need to decide in your group which Docker image you'd like to deploy to your Minikube cluster using **Terraform** and **Helm**. New to these tools? See the [Software Overview](overview.md).
 
-[Docker Hub](https://hub.docker.com/) is the primary public source for Docker images and any image you use today will likely be from there. However, being an industry focused service the ones it suggests on the homepage won't be very interesting to run outside of a microservice ecosystem.
+[Docker Hub](https://hub.docker.com/) is the primary public source for Docker images and any image you use today will likely be from there. However, being an industry focused service the ones it suggests on the homepage won't be very interesting to run outside a microservice ecosystem.
 
-Instead try the search feature to find an image that will deploy something accessible on it's own
+Instead, try the search feature to find an image that will deploy something accessible on its own
 
 For example, searching `tetris` takes me to results with multiple options to choose from:
 ![docker-search](images/tetris-search.png)
 
 Here are some search phrases to spark ideas:
 
-- **Games:** `tetris`, `2048`, `snake`, `pacman`, `doom`, `minesweeper`, `chess`
+- **Games:** `2048`, `snake`, `pacman`, `doom`, `minesweeper`, `chess`, `tetris`
 - **Fun / demos:** `hello world`, `whoami`, `nyancat`, `ascii`, `clock`
 - **Useful web tools:** `it-tools`, `code-server`, `nginx hello`, `httpbin`, `static site`
 - **Dashboards / landing pages:** `homer`, `dashy`, `heimdall`, `linkding`
@@ -115,11 +118,11 @@ You must update the two files below with all the required values to successfully
 | `image.repository` | Your chosen Docker image name. Example: `bsord/tetris` |
 | `image.tag` | The image's tag. If you're unsure, set this to `latest` |
 | `containerPort` | The container port you noted earlier, the one your app listens on inside the container, e.g. `80` |
-| `service.port` | The service port you noted earlier. Usually the same as `containerPort` |
+| `service.port` | The service port you noted earlier. Usually the same as **containerPort** |
 | `service.nodePort` | The port exposed on your machine. Must be a number in the 30000-32767 range, e.g. `30080` |
 
 !!! warning "Replace the placeholder values"
-    The file ships with placeholder values: `docker-hub-image`, `image-tag`, `containerPort: 9999`, `port: 8888` and `nodePort: 00000`. They all need to be updated or your deployment will fail.
+    The file ships with placeholder values: `docker-hub-image`, `image-tag`, `containerPort: 9999`, `port: 8888` and `nodePort: 00000`. They all need to be updated, or your deployment will fail.
 
 ### `terraform/terraform.tfvars`
 
@@ -131,27 +134,6 @@ You must update the two files below with all the required values to successfully
 !!! warning "Case sensitivity"
     For Terraform values you must use lowercase-letter, numbers, and dashes only
 ---
-
-### Example
-
-  Deploying [`bsord/tetris`](https://hub.docker.com/r/bsord/tetris), which listens on port `80`:
-
-  ```yaml
-  # helm/challenge/values.yaml
-  image:
-    repository: bsord/tetris
-    tag: latest
-  containerPort: 80
-  service:
-    port: 80
-    nodePort: 30080
-  ```
-
-  ```hcl
-  # terraform/terraform.tfvars
-  release_name = "tetris"
-  namespace    = "tetris-dev"
-  ```
 
 ## Deploying with Terraform and Helm
 
@@ -186,12 +168,18 @@ like this (using the `release_name` and `namespace` you set):
 ```shell
 minikube service <release_name>-challenge -n <namespace>
 ```
-For the example above (`release_name = "tetris"`, `namespace = "tetris-dev"`) that's:
-```shell
-minikube service tetris-challenge -n tetris-dev
-```
 This opens your browser to the running app. (The service is named `<release_name>-challenge` because Helm prefixes the chart name(**challenge**) with
 your release name.)
+
+!!! info "My service is opening a **connection refused** page"
+
+    This is a common WSL issue, port-forwarding can be used as a workaround:
+    ```shell
+    kubectl port-forward -n <namespace> svc/<release_name>-challenge 8080:<service.port>
+    ```
+
+    Then visit <http://localhost:8080>.
+
 
 Check the deployment status at any time:
 ```shell
@@ -199,6 +187,9 @@ kubectl get all -n <namespace>
 ```
 
 ## Tearing it down
+
+!!! warning
+    If you're attempting the Extension then complete that before running these steps.
 
 Remove everything Terraform created (the Helm release, and the namespace):
 ```shell
@@ -212,36 +203,66 @@ minikube stop      # stop the cluster (keeps state)
 minikube delete    # delete the whole cluster
 ```
 
-## Extensions
+## Extension
 
-Completed the previous steps or alredy confident with Docker? There are a couple things you could try now, the first continues on your challenge virtual machine and the second is for those looking to push into interacting with personal projects(requires personal device).
+Completed the previous steps or already confident with Docker? We're going to attempt to deploy Jenkins to your minikube cluster using the same template you've used for your first image.
 
-### Deploy Elastisearch
-If you're choosing to continue on the virtual machine, you should now try to deploy the [Elastisearch Docker image](https://hub.docker.com/_/elasticsearch)
+Jenkins is a real-world automation server, so it won't deploy quite like your first image. You'll be attempting to deploy the Jenkins image and troubleshooting any snags that may arise. 
 
-Follow the instructions again to update your **Helm** and **Terraform** files and deploy this image, then answer the questions below:
+### Deploy Jenkins
 
-Did the image deploy successfully?
+It's time to deploy the [Jenkins Docker Image](https://hub.docker.com/r/jenkins/jenkins).
 
-If it didn't then why?
+Follow the earlier steps again to update your **Helm** and **Terraform** files for Jenkins, then run `terraform apply`.
 
-What needs to be changed if this is failing to deploy successfully?
+### Monitor your deployment
 
-!!! tip "Extension hint"
-    Use `kubectl` to attempt to diagnose the pods, what can you see in the events? What can be changed in the files to fix this?
+Don't wait for `terraform apply` to finish, open a **new terminal** and watch what the pod does while it starts:
 
-### Containerise a personal project
+```shell
+kubectl get pods -n <namespace>
+```
 
-!!! warning
-    This extension task isn't recommnded unless you're already confident with these technologies or planning to complete this in your own time. These instructions also assume a higher level of understanding.
+Run it a few times. Instead of going straight to `Running`, you'll see the pod cycling.
 
-If you're confident with these technologies already then you should attempt to containerise either a personal web application project or a templated web application and push it to Docker Hub so that you can deploy it to your minikube cluster.
+Now get the full details for that pod:
 
-This will require you installing the technologies we've used onto a personal device, to do this on the challenge virtual machines we created this script which you can run from WSL(or terminal on Mac or Linux) - [setup script](https://github.com/WebOpsLR/UOPComputingChallenge/blob/main/install-tools.sh)
+```shell
+kubectl describe pod <pod> -n <namespace>
+```
 
-- Here is [Docker Hub's examample when containerising a Next.js application](https://docs.docker.com/guides/nextjs/)
+!!! info "Where to look in the output"
+    - The **Events** section at the bottom of `describe` is where the first symptom shows up, read it top to bottom.
+    - The **Containers** section (look at `Last State`, `Reason` and `Restart Count`) tells you what happened on the restarts.
 
-As the focus of this challenge isn't specifically on the containerisation part of the deployment process, feel free to use an AI assistant to generate your Dockerfile and save you some time.
+### Diagnose the deployment
 
-!!! tip
-    If using a personal web application project then it's advised to push it to a private repository on Docker Hub.
+Work through these questions with your group before changing anything:
+
+- Did the image deploy successfully? If not, what state is the pod stuck in?
+- What are the **Events** telling you? Is anything failing?
+- Kubernetes is probing the container to decide if it's healthy. **Which port** is it checking, and is that the port Jenkins actually listens on?
+- Jenkins is a large application, are the memory limits high enough?
+
+!!! question "Liveness and readiness probes"
+    The helm chart configures **liveness** and **readiness** probes, Kubernetes' way of asking "is this container alive?" and "is it ready for traffic?". When a probe keeps failing, Kubernetes restarts the container (You can see this in events). Have a read of what these probes do and what settings control them: [Liveness, Readiness and Startup Probes](https://kubernetes.io/docs/tasks/configure-pod-liveness-readiness-startup-probes/).
+
+### Fix your deployment
+
+You now need to address the issues you've found in your deployment and update your helm chart so that Jenkins can successfully deploy.
+
+There are two files you will need to update for this step, if you're unsure which they are you can check the [Hints](hints.md#which-files-do-i-edit)
+
+### Reach Jenkins
+
+Once the pod is `Ready`, follow the [access instructions](#accessing-the-app) to access your running Jenkins
+
+When you open Jenkins in the browser it will ask you to **Unlock Jenkins**, you have now successfully deployed Jenkins and completed the extension.
+
+You're welcome to continue setting up your Jenkins instance if you've got time leftover. To do this you need to run a command inside the Jenkins pod which generates the admin password:
+```shell
+kubectl exec -n <namespace> deploy/<release_name>-challenge -- cat /var/jenkins_home/secrets/initialAdminPassword
+```
+
+Paste the password into the unlock screen and then it'll give you the options needed to fully configure Jenkins, there isn't a lot you can do with this unless you've got a larger application ecosystem to plug it into.
+
