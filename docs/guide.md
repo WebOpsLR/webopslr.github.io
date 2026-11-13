@@ -278,7 +278,7 @@ Once the pod is `Ready`, follow the [access instructions](#accessing-the-app) to
 
 When you open Jenkins in the browser it will ask you to **Unlock Jenkins**, you have now successfully deployed Jenkins and completed the extension.
 
-You're welcome to continue setting up your Jenkins instance if you've got time leftover. To do this you need to run a command inside the Jenkins pod which generates the admin password:
+You're welcome to continue setting up your Jenkins instance if you've got time leftover. To do this you need to run a command inside the Jenkins pod using `kubectl exec` which generates the admin password:
 ```shell
 kubectl exec -n <namespace> deploy/<release_name>-challenge -- cat /var/jenkins_home/secrets/initialAdminPassword
 ```
