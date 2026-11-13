@@ -239,10 +239,9 @@ Follow the [earlier steps](#filling-in-your-values) again to update your **Helm*
 Don't wait for `terraform apply` to finish, open a **new terminal** and watch what the pod does while it starts:
 
 ```shell
-kubectl get pods -n <namespace>
+watch kubectl get pods -n <namespace>
 ```
-
-Run it a few times. Instead of going straight to `Running`, you'll see the pod cycling.
+Once you've spotted what's happening, use `Ctrl+C` to exit the watch view.
 
 Now get the full details for that pod:
 
@@ -253,6 +252,7 @@ kubectl describe pod <pod> -n <namespace>
 !!! info "Where to look in the output"
     - The **Events** section at the bottom of `describe` is where the first symptom shows up, read it top to bottom.
     - The **Containers** section (look at `Last State`, `Reason` and `Restart Count`) tells you what happened on the restarts.
+    - Any error codes listed, what does a search of these return.
 
 ### Diagnose the deployment
 
@@ -264,7 +264,7 @@ Work through these questions with your group before changing anything:
 - Jenkins is a large application, are the memory limits high enough?
 
 !!! question "Liveness and readiness probes"
-    The helm chart configures **liveness** and **readiness** probes, Kubernetes' way of asking "is this container alive?" and "is it ready for traffic?". When a probe keeps failing, Kubernetes restarts the container (You can see this in events). Have a read of what these probes do and what settings control them: [Liveness, Readiness and Startup Probes](https://kubernetes.io/docs/tasks/configure-pod-liveness-readiness-startup-probes/).
+    The helm chart configures **liveness** and **readiness** probes, Kubernetes' way of asking "is this container alive?" and "is it ready for traffic?". When a probe keeps failing, Kubernetes restarts the container (You can see this in events). Have a read of what these should look like for a Jenkins deployment [Liveness, Readiness and Startup Probes](https://www.jenkins.io/doc/book/installing/kubernetes/).
 
 ### Fix your deployment
 
