@@ -20,8 +20,14 @@ To complete the challenge you will need to open **Terminal**, this has been defa
 
 Once you've opened your terminal you need to navigate to the challenge directory(folder):
 ```shell
-cd ~/challenge
+cd challenge/
 ```
+Now you're in the right directory you can open the files in vscode
+```shell
+code .
+```
+You'll need to click the manage banner at the top of vscode and trust the workspace for the challenge.
+
 
 !!! tip
     if you need to use `sudo` for anything, the username and password in WSL have both been set to **student**
@@ -45,12 +51,18 @@ Only two files need your input, and both are marked with `# EDIT VALUES IN THIS 
 
 ## Starting your cluster
 
+!!! info
+    Before trying to start your minikube cluster, you must ensure that you have opened the Docker desktop app and the Docker engine is running.
+
+    To confirm if docker is running in terminal run `docker info`, this should output info on your Docker client.
+
+
 You'll start with launching your minikube cluster using the cli in terminal
 ```shell
 minikube start
 ```
 
-This creates a local single-node Kubernetes cluster and sets your **kubeconfig** context to `minikube`. Confirm it's up:
+This creates a local single-node Kubernetes cluster and sets your **kubeconfig** context to `minikube`. This can take up to a minute to become ready, so you may want to run the command multiple times to see when it's ready for deployments:
 ```shell
 kubectl get nodes
 ```
@@ -109,7 +121,7 @@ Whatever you pick, note three things from the image's Docker Hub page, you'll ne
 
 ## Filling in your values
 
-You must update the two files below with all the required values to successfully deploy your Docker image.
+You must update the two files below with all the required values to successfully deploy your Docker image. Make sure you save your files as you go because vscode doesn't autosave by default.
 
 ### `helm/challenge/values.yaml`
 
@@ -137,6 +149,8 @@ You must update the two files below with all the required values to successfully
 
 ## Deploying with Terraform and Helm
 
+Go back to your terminal for these steps as we're using the cli tools.
+
 Make sure `minikube` is running first (`minikube status`).
 
 1. Move into the Terraform directory:
@@ -160,7 +174,12 @@ Make sure `minikube` is running first (`minikube status`).
 
 When it finishes, Terraform prints outputs including the command to open the app.
 
+!!! tip "Minikube Dashboard"
+    You can use `minikube dashboard` in a new terminal window so running a kubernetes dashboard which allows you to visually see your namespace and deployment. You can select your namespace at the top (this is set to **default** on launch) and click around your deployment!
+
 ## Accessing the app
+
+Open a new terminal window to access your application through minikube.
 
 The chart exposes the app as a `NodePort` service. The easiest way to open it
 on minikube is the `access_command` Terraform prints when it finishes. It looks
@@ -213,7 +232,7 @@ Jenkins is a real-world automation server, so it won't deploy quite like your fi
 
 It's time to deploy the [Jenkins Docker Image](https://hub.docker.com/r/jenkins/jenkins).
 
-Follow the earlier steps again to update your **Helm** and **Terraform** files for Jenkins, then run `terraform apply`.
+Follow the [earlier steps](#filling-in-your-values) again to update your **Helm** and **Terraform** files for Jenkins, these all need to be updated to match your new deployment. Then run `terraform plan` to see the changes it's making before doing `terraform apply`.
 
 ### Monitor your deployment
 
