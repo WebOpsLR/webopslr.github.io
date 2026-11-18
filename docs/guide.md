@@ -81,43 +81,44 @@ kubectl get services -A           # lists all services
 ## Choosing an image
 
 !!! info
-    we recommend choosing a web application image for this as it will be simpler to deploy (less likely to need a large amount of memory or an alternative helm configuration)
+    You should choose a web application image for this as it will be simpler to deploy (less likely to need a large amount of memory or an alternative helm configuration)
 
 You now need to decide in your group which Docker image you'd like to deploy to your Minikube cluster using **Terraform** and **Helm**. New to these tools? See the [Software Overview](overview.md).
 
-[Docker Hub](https://hub.docker.com/) is the primary public source for Docker images and any image you use today will likely be from there. However, being an industry focused service the ones it suggests on the homepage won't be very interesting to run outside a microservice ecosystem.
+[Docker Hub](https://hub.docker.com/) is the primary public source for Docker images and any image you use today will be from there. However, being an industry focused service the ones it suggests on the homepage won't be very interesting to run outside a microservice ecosystem.
 
 Instead, try the search feature to find an image that will deploy something accessible on its own
 
 For example, searching `tetris` takes me to results with multiple options to choose from:
 ![docker-search](images/tetris-search.png)
 
-Here are some search phrases to spark ideas:
+Here are some images to spark ideas. Search for the full name to see them:
 
-- **Games:** `2048`, `snake`, `pacman`, `doom`, `minesweeper`, `chess`, `tetris`
-- **Fun / demos:** `hello world`, `whoami`, `nyancat`, `ascii`, `clock`
-- **Useful web tools:** `it-tools`, `code-server`, `nginx hello`, `httpbin`, `static site`
-- **Dashboards / landing pages:** `homer`, `dashy`, `heimdall`, `linkding`
+- **Games:** `bsord/tetris`, `saintdle/pacman`, `neodarwin/snake`, `quchaonet/2048`, `nadav42/minesweeper`, `alekosxoxlidakis/chess`
+- **Fun / demos:** `crccheck/hello-world`, `jwilder/whoami`
+- **Useful web tools:** `corentinth/it-tools`, `kennethreitz/httpbin`
+- **Dashboards / landing pages:** `b4bz/homer`, `linuxserver/heimdall`
+
+Each of these has a `docker run -p ...` example on its Docker Hub page and serves a web page on a single port.
 
 !!! info "What makes a good image for this challenge?"
     Look for images that serve a web page on a single port and don't need a database or extra services to start. The image's Docker Hub page should show a simple `docker run -p ...` example. If the description talks about needing a database or multiple containers, pick something simpler.
 
-Whatever you pick, note three things from the image's Docker Hub page, you'll need them in the next step:
+Whatever you pick, note four things from the image's Docker Hub page, you'll need them in the next step:
 
 - The **image name** (e.g. `bsord/tetris`).
 - The **tag** (e.g. `latest`).
-- The **port** the app listens on inside the container (e.g. `80`).
+- The **container port** the app listens on inside the container (e.g. `80`).
+- The **service port** (e.g. `80`).
 
-!!! tip "Where do I find the port?"
-    The Docker Hub page usually shows an example `docker run` command like
-    `docker run -d -p 80:80 bsord/tetris`. In `-p SERVICE_PORT:CONTAINER_PORT`:
+!!! tip "Where do I find the ports?"
+    The Docker Hub page usually shows an example command like
+    `docker run -d -p 80:80 bsord/tetris`. Read the `-p` part as `-p SERVICE_PORT:CONTAINER_PORT`:
 
-    - the number **after** the colon is the **container port**, the one your app
-      listens on inside the container (this is `containerPort` later).
-    - the number **before** the colon is the **service port** (this is
-      `service.port` later). It's usually the same as the container port.
+    - the number **before** the colon is the **service port** 
+    - the number **after** the colon is the **container port** 
 
-    So in `-p 80:80` both are `80`.
+    They're often the same, as in `-p 80:80`. If they differ, as in `-p 8080:80`, the service port is `8080` and the container port is `80`.
 
 ## Filling in your values
 
